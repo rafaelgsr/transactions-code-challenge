@@ -1,6 +1,5 @@
 package com.rafaelramos.repository;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import com.rafaelramos.model.Transaction;
@@ -21,6 +20,4 @@ public interface TransactionRepository {
 	
 	public List<Long> listIdsByType(String type);
 	
-	public BigDecimal sumByParentId(long parentId);
-
 }

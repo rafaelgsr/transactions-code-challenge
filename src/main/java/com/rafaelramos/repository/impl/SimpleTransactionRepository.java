@@ -32,10 +32,4 @@ public class SimpleTransactionRepository implements TransactionRepository {
 				.collect(Collectors.toList());
 	}
 
-	@Override
-	public BigDecimal sumByParentId(long parentId) {
-		return TRANSACTIONS.values().stream().filter(t -> t.getParent() != null && t.getParent().getId() == parentId)
-				.map(t -> t.getAmount()).reduce(BigDecimal.ZERO, BigDecimal::add);
-	}
-
 }

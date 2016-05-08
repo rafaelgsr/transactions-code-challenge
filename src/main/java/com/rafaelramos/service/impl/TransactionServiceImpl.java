@@ -38,8 +38,11 @@ public class TransactionServiceImpl implements TransactionService {
 		transaction.setAmount(amount);
 		transaction.setType(type);
 		transaction.setParent(parent);
-		
 		this.repository.save(transaction);
+
+		if (parent != null) {
+			parent.getChildren().add(transaction);
+		}
 
 		return transaction;
 
@@ -61,10 +64,12 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	public BigDecimal sumByParentId(long parentId) {
-		if (this.repository.findOne(parentId) == null) {
+		Transaction transaction = this.repository.findOne(parentId);
+		if (transaction == null) {
 			throw new EntityNotFoundException("not found: " + parentId);
 		}
-		return this.repository.sumByParentId(parentId);
+
+		return transaction.getChildren().stream().map(t -> t.getAmount()).reduce(BigDecimal.ZERO, BigDecimal::add);
 	}
 
 }

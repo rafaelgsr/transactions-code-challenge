@@ -1,6 +1,8 @@
 package com.rafaelramos.model;
 
 import java.math.BigDecimal;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Transaction {
 
@@ -9,6 +11,7 @@ public class Transaction {
 	private String type;
 
 	private Transaction parent;
+	private List<Transaction> children = new LinkedList<>();
 
 	public long getId() {
 		return id;
@@ -40,6 +43,14 @@ public class Transaction {
 
 	public void setParent(Transaction parent) {
 		this.parent = parent;
+	}
+
+	public List<Transaction> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<Transaction> children) {
+		this.children = children;
 	}
 
 }

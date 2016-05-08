@@ -90,6 +90,8 @@ public class TransactionsTests {
 		transaction.setParent(parent);
 		this.repository.save(transaction);
 
+		parent.getChildren().add(transaction);
+
 		when().get(this.getBaseUrl() + "/transactionservice/transaction/{id}", id).then()
 				.statusCode(HttpStatus.OK.value()).body("amount", is(5000)).body("parent_id", is(parentId))
 				.body("type", is("cars"));
@@ -139,6 +141,9 @@ public class TransactionsTests {
 		transaction2.setType("bikes");
 		transaction2.setParent(parent);
 		this.repository.save(transaction2);
+
+		parent.getChildren().add(transaction1);
+		parent.getChildren().add(transaction2);
 
 		when().get(this.getBaseUrl() + "/transactionservice/sum/{id}", parentId).then()
 				.statusCode(HttpStatus.OK.value()).body("sum", is(15000));
