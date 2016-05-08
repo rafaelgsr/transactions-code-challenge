@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import org.hamcrest.Matchers;
 import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -69,7 +68,7 @@ public class TransactionsTests {
 	@Test
 	public void testTransactionNotFound() {
 		when().get(this.getBaseUrl() + "/transactionservice/transaction/{id}", new Random().nextInt(Integer.MAX_VALUE))
-				.then().statusCode(HttpStatus.NOT_FOUND.value());
+				.then().statusCode(HttpStatus.NOT_FOUND.value()).body("status", is("error"));
 	}
 
 	@Test

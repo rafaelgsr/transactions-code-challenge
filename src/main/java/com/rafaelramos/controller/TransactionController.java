@@ -1,9 +1,6 @@
 package com.rafaelramos.controller;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,8 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.collect.ImmutableMap;
+import com.rafaelramos.controller.resource.StatusResponse;
 import com.rafaelramos.controller.resource.TransactionResource;
+import com.rafaelramos.controller.resource.TransactionSumResponse;
 import com.rafaelramos.model.Transaction;
 import com.rafaelramos.service.TransactionService;
 
@@ -46,9 +44,9 @@ public class TransactionController {
 	 * @param id
 	 */
 	@RequestMapping(value = "/transaction/{id:[0-9]+}", method = RequestMethod.PUT)
-	public @ResponseBody Map<String, String> insert(@RequestBody TransactionResource request, @PathVariable long id) {
+	public @ResponseBody StatusResponse insert(@RequestBody TransactionResource request, @PathVariable long id) {
 		this.transactionService.save(id, request.getAmount(), request.getType(), request.getParentId());
-		return ImmutableMap.of("status", "ok");
+		return new StatusResponse("ok");
 	}
 
 	@RequestMapping(value = "/transaction/{id:[0-9]+}", method = RequestMethod.GET)
@@ -73,8 +71,8 @@ public class TransactionController {
 	}
 
 	@RequestMapping(value = "/sum/{id:[0-9]+}", method = RequestMethod.GET)
-	public @ResponseBody Map<String, BigDecimal> sum(@PathVariable long id) {
-		return ImmutableMap.of("sum", this.transactionService.sumByParentId(id));
+	public @ResponseBody TransactionSumResponse sum(@PathVariable long id) {
+		return new TransactionSumResponse(this.transactionService.sumByParentId(id));
 	}
 
 }
