@@ -69,7 +69,8 @@ public class TransactionServiceImpl implements TransactionService {
 			throw new EntityNotFoundException("not found: " + parentId);
 		}
 
-		return transaction.getChildren().stream().map(t -> t.getAmount()).reduce(BigDecimal.ZERO, BigDecimal::add);
+		return transaction.getChildren().stream().map(t -> t.getAmount()).reduce(BigDecimal.ZERO, BigDecimal::add)
+				.add(transaction.getAmount());
 	}
 
 }

@@ -146,10 +146,10 @@ public class TransactionsTests {
 		parent.getChildren().add(transaction2);
 
 		when().get(this.getBaseUrl() + "/transactionservice/sum/{id}", parentId).then()
-				.statusCode(HttpStatus.OK.value()).body("sum", is(15000));
+				.statusCode(HttpStatus.OK.value()).body("sum", is(22000));
 
 		when().get(this.getBaseUrl() + "/transactionservice/sum/{id}", transaction1.getId()).then()
-				.statusCode(HttpStatus.OK.value()).body("sum", is(0));
+				.statusCode(HttpStatus.OK.value()).body("sum", is(5000));
 
 	}
 
